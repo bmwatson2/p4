@@ -53,12 +53,17 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 	 * @param start The start value of the interval.
 	 * @param end The end value of the interval.
 	 * @param label The label for the interval.
-	 * @throws IllegalArgumentException if start > end.
+	 * @throws IllegalArgumentException if start > end; if start, end, or 
+	 * 		   label are null.
 	 */
 	public Interval(T start, T end, String label) 
 			throws IllegalArgumentException
 	{
 		if (start.compareTo(end) > 0)
+		{
+			throw new IllegalArgumentException("IllegalArgumentException");
+		}
+		else if (start == null || end == null || label == null)
 		{
 			throw new IllegalArgumentException("IllegalArgumentException");
 		}
@@ -143,10 +148,16 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 	 * 
 	 * @param point Point to search for.
 	 * @return true if point lies within the interval, false if it doesn't.
+	 * @throws IllegalArgumentException if point is null.
 	 */
 	@Override
-	public boolean contains(T point) 
+	public boolean contains(T point) throws IllegalArgumentException
 	{
+		// Check if point is null
+		if (point == null)
+		{
+			throw new IllegalArgumentException("IllegalArgumentException");
+		}
 		// Check if point > a
 		if (point.compareTo(this.getStart()) > 0)
 		{
@@ -198,10 +209,15 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 	 * @return negative if this interval's comes before the other interval,
 	 * 		   positive if this interval comes after the other interval,
 	 * 		   0 if the intervals are the same.
+	 * @throws IllegalArgumentException if other interval is null.
 	 */
 	@Override
-	public int compareTo(IntervalADT<T> other) 
+	public int compareTo(IntervalADT<T> other) throws IllegalArgumentException
 	{
+		if (other == null)
+		{
+			throw new IllegalArgumentException("IllegalArgumentException");
+		}
 		// Get comparator value for a and c
 		int comparatorStart = this.getStart().compareTo(other.getStart());
 
