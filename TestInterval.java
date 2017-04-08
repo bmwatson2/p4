@@ -74,6 +74,7 @@ public class TestInterval
 		System.out.println("getLabel() Testing");
 		Sexpected = "test1";
 		Sactual = testInterval1.getLabel();
+		stringTest(Sexpected, Sactual);
 		
 		// Test overlaps(IntervalADT<T> other) method
 		// Interval that overlaps both within
