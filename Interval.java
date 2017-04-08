@@ -60,7 +60,7 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 	{
 		if (start.compareTo(end) > 0)
 		{
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("IllegalArgumentException");
 		}
 		else
 		{
@@ -116,9 +116,9 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 			throws IllegalArgumentException 
 	{
 		// Check if other is null, throw exception
-		if (other.equals(null))
+		if (other == null)
 		{
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("IllegalArgumentException");
 		}
 		// Check if a > d
 		else if (this.getStart().compareTo(other.getEnd()) > 0)
