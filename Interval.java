@@ -53,12 +53,21 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T>
 	 * @param start The start value of the interval.
 	 * @param end The end value of the interval.
 	 * @param label The label for the interval.
+	 * @throws IllegalArgumentException if start > end.
 	 */
 	public Interval(T start, T end, String label) 
+			throws IllegalArgumentException
 	{
-		this.start = start;
-		this.end = end;
-		this.label = label;
+		if (start.compareTo(end) > 0)
+		{
+			throw new IllegalArgumentException();
+		}
+		else
+		{
+			this.start = start;
+			this.end = end;
+			this.label = label;
+		}
 	}
 
 	/**
