@@ -31,6 +31,9 @@ public class IntervalNode<T extends Comparable<T>> {
 	 *            the interval data member.
 	 */
 	public IntervalNode(IntervalADT<T> interval) {
+		if (interval == null) {
+			throw new IllegalArgumentException();
+		}
 		this.interval = interval;
 		maxEnd = interval.getEnd();
 		leftNode = null;
