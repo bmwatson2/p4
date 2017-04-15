@@ -28,11 +28,17 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			return new IntervalNode<T>(interval);
 		}
 		// If curr's start value is smaller, then new interval goes to the left subtree
-		if(interval.getStart().compareTo(root.getInterval().getStart()) < 0) {
-			curr.setLeftNode(insert(interval, root.getLeftNode()));
+		if(interval.getStart().compareTo(curr.getInterval().getStart()) < 0) {
+			curr.setLeftNode(insert(interval, curr.getLeftNode()));
 		}
-		else if(interval.getStart().compareTo(root.getInterval().getStart()) > 0) {
-			curr.setRightNode(insert(interval, root.getRightNode()));
+		else if(interval.getStart().compareTo(curr.getInterval().getStart()) > 0) {
+			curr.setRightNode(insert(interval, curr.getRightNode()));
+		}
+		else if(interval.getEnd().compareTo(curr.getInterval().getEnd()) < 0) {
+			curr.setLeftNode(insert(interval, curr.getLeftNode()));
+		}
+		else if(interval.getEnd().compareTo(curr.getInterval().getEnd()) > 0) {
+			curr.setRightNode(insert(interval, curr.getRightNode()));
 		}
 		else {
 			throw new IllegalArgumentException();
@@ -58,19 +64,24 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public IntervalNode<T> deleteHelper(IntervalNode<T> node,
 					IntervalADT<T> interval)
 					throws IntervalNotFoundException, IllegalArgumentException {
+		//System.out.println(node.getInterval().toString());
 		if(node == null) {
 			throw new IntervalNotFoundException(interval.getLabel());
 		}
 		// If node's start value is smaller, then new interval goes to the left subtree
-		if(interval.equals(node.getInterval())) {
+		if(interval.getStart() == node.getInterval().getStart() && interval.getEnd() == node.getInterval().getEnd()) {
+			System.out.println("here");
 			if(node.getRightNode() != null) {
-				node.setInterval(node.getRightNode().getInterval());
+				node.setInterval(node.getSuccessor().getInterval());
+				node.setRightNode(deleteHelper(node.getRightNode(), node.getInterval()));
 				//Update the new maxEnd.
 				if(node.getRightNode()!=null) {
+					
 					node.setMaxEnd(node.getRightNode().getMaxEnd());
 				}
 				else {
 					node.setMaxEnd(node.getInterval().getEnd());
+					
 				}
 				return node;
 			}
@@ -79,18 +90,29 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			}
 		}
 		//If interval is in the left subtree,
-		if(interval.getStart().compareTo(node.getInterval().getStart()) < 0) {
+		else if((interval.getStart().compareTo(node.getInterval().getStart()) < 0) || ((interval.getStart().compareTo(node.getInterval().getStart()) == 0) && (interval.getEnd().compareTo(node.getInterval().getEnd()) < 0))) {
 			//Set left child to result of calling deleteHelper on left child.
 			node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
 			//Update the maxEnd if necessary.
+			T right = null;
+			T left = null;
+			T intev = null;
 			if(node.getRightNode()!=null) {
-				node.setMaxEnd(node.getRightNode().getMaxEnd());
+				right = node.getRightNode().getMaxEnd();
 			}
-			else {
-				node.setMaxEnd(node.getInterval().getEnd());
+			if(node.getLeftNode()!=null) {
+				left = node.getLeftNode().getMaxEnd();
 			}
+			intev = node.getInterval().getEnd();
+			if(right != null && right.compareTo(intev) > 0) {
+				intev = right;
+			}
+			if(left != null && left.compareTo(intev) > 0) {
+				intev = left;
+			}
+			node.setMaxEnd(intev);
 		}
-		else if(interval.getStart().compareTo(node.getInterval().getStart()) < 0) {
+		else {
 			node.setRightNode(deleteHelper(node.getRightNode(), interval));
 			//Update the maxEnd if necessary.
 			if(node.getRightNode()!=null) {
@@ -121,12 +143,17 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			result.add(node.getInterval());
 		}
 		//if left subtree's max is greater than the interval's start, call findOverlappingHelper in the left subtree.
-		if(node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
-			findOverlappingHelper(node.getLeftNode(), interval, result);
+		if(node.getLeftNode() != null) {
+			if(node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
+				findOverlappingHelper(node.getLeftNode(), interval, result);
+			}
 		}
+		
 		 //if right subtree's max is greater than the interval's start, call call findOverlappingHelper in the rightSubtree.
-		if(node.getRightNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
-			findOverlappingHelper(node.getRightNode(), interval, result);
+		if(node.getRightNode() != null) {
+		    if(node.getRightNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
+		    	findOverlappingHelper(node.getRightNode(), interval, result);
+		    }
 		}
 	}
 	@Override
@@ -136,11 +163,14 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		return sp;
 	}
 	private void sPH(T point, List<IntervalADT<T>> sp, IntervalNode<T> curr) {
+		if(curr == null) {
+			return;
+		}
 		if((curr.getInterval().getStart().compareTo(point) <= 0) && (curr.getInterval().getEnd().compareTo(point) >= 0)) {
 			sp.add(curr.getInterval());
 		}
-		sPH(point, sp, root.getLeftNode());
-		sPH(point, sp, root.getRightNode());
+		sPH(point, sp, curr.getLeftNode());
+		sPH(point, sp, curr.getRightNode());
 	}
 	
 	@Override
@@ -171,6 +201,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			if(height < h2) {
 				height = h2;
 			}
+			height++;
 		}
 		return height;
 	}
