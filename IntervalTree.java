@@ -1,3 +1,20 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2017 
+// PROJECT:          p4
+// FILE:             IntervalTree.java
+//
+// Authors: Zexing Li (Richard), Bryan Watson, Mason Gomm
+//
+// Author1: Zexing Li (Richard), zli674@wisc.edu, zexing, lec001
+// Author2: Bryan Watson, bmwatson2@wisc.edu, bmwatson2, lec001
+// Author3: Mason Gomm, Mgomm@wisc.edu, mgomm, lec001
+//
+//
+// ---------------- OTHER ASSISTANCE CREDITS 
+// Persons: N/a
+// 
+// Online sources: N/a
+//////////////////////////// 80 columns wide //////////////////////////////////
 import java.util.ArrayList;
 import java.util.List;
 
