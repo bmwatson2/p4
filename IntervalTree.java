@@ -3,11 +3,19 @@ import java.util.List;
 
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 	
-	private IntervalNode<T> root = null;
+	private IntervalNode<T> root;
+	
+	public IntervalTree() {
+		this.root = null;
+	}
+	
+	public IntervalTree(IntervalNode<T> root){
+		this.root = root;
+	}
 
 	@Override
 	public IntervalNode<T> getRoot() {
-		return root;
+		return this.root;
 	}
 
 	@Override
@@ -17,8 +25,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			throw new IllegalArgumentException();
 		}
 		
-		IntervalNode<T> curr = root;
-		root = insert(interval, curr);
+		IntervalNode<T> curr = this.root;
+		this.root = insert(interval, curr);
 	}
 	
 	private IntervalNode<T> insert(IntervalADT<T> interval, IntervalNode<T> curr)
@@ -57,7 +65,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if(interval == null) {
 			throw new IllegalArgumentException();
 		}
-		root = deleteHelper(root, interval);
+		this.root = deleteHelper(this.root, interval);
 	}
 
 	@Override
@@ -129,7 +137,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public List<IntervalADT<T>> findOverlapping(
 					IntervalADT<T> interval) {
 		List<IntervalADT<T>> ol = new ArrayList<IntervalADT<T>>();
-		findOverlappingHelper(root, interval, ol);
+		findOverlappingHelper(this.root, interval, ol);
 		return ol;
 	}
 
@@ -159,7 +167,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
 		List<IntervalADT<T>> sp = new ArrayList<IntervalADT<T>>();
-		sPH(point, sp, root);
+		sPH(point, sp, this.root);
 		return sp;
 	}
 	private void sPH(T point, List<IntervalADT<T>> sp, IntervalNode<T> curr) {
@@ -175,7 +183,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	
 	@Override
 	public int getSize() {
-		return recSize(root);
+		return recSize(this.root);
 	}
 
 	private int recSize(IntervalNode<T> curr) {
@@ -189,7 +197,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	}
 	@Override
 	public int getHeight() {
-		return recHeight(root);
+		return recHeight(this.root);
 	}
 	
 	private int recHeight(IntervalNode<T> curr) {
@@ -208,7 +216,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public boolean contains(IntervalADT<T> interval) {
-		return recC(root, interval);
+		return recC(this.root, interval);
 	}
 
 	private boolean recC(IntervalNode<T> curr, IntervalADT<T> interval) {
