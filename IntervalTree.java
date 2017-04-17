@@ -152,14 +152,14 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		}
 		//if left subtree's max is greater than the interval's start, call findOverlappingHelper in the left subtree.
 		if(node.getLeftNode() != null) {
-			if(node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
+			if(node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 				findOverlappingHelper(node.getLeftNode(), interval, result);
 			}
 		}
 		
 		 //if right subtree's max is greater than the interval's start, call call findOverlappingHelper in the rightSubtree.
 		if(node.getRightNode() != null) {
-		    if(node.getRightNode().getMaxEnd().compareTo(interval.getStart()) > 0) {
+		    if(node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 		    	findOverlappingHelper(node.getRightNode(), interval, result);
 		    }
 		}
