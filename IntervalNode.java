@@ -1,3 +1,20 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2017 
+// PROJECT:          p4
+// FILE:             IntervalNode.java
+//
+// Authors: Zexing Li (Richard), Bryan Watson, Mason Gomm
+//
+// Author1: Zexing Li (Richard), zli674@wisc.edu, zexing, lec001
+// Author2: Bryan Watson, bmwatson2@wisc.edu, bmwatson2, lec001
+// Author3: Mason Gomm, Mgomm@wisc.edu, mgomm, lec001
+//
+//
+// ---------------- OTHER ASSISTANCE CREDITS 
+// Persons: N/a
+// 
+// Online sources: N/a
+//////////////////////////// 80 columns wide //////////////////////////////////
 /**
  * This class defines the IntervalNode for the IntervalTree. This node has three
  * components: 1) interval - the data that we want to store in this node 2)
