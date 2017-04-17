@@ -74,7 +74,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 					throws IntervalNotFoundException, IllegalArgumentException {
 		//System.out.println(node.getInterval().toString());
 		if(node == null) {
-			throw new IntervalNotFoundException(interval.getLabel());
+			throw new IntervalNotFoundException(interval.toString());
 		}
 		// If node's start value is smaller, then new interval goes to the left subtree
 		if(interval.getStart() == node.getInterval().getStart() && interval.getEnd() == node.getInterval().getEnd()) {
